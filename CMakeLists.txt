@@ -1,5 +1,12 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required(VERSION 2.8...3.13)
 
-project (NSDI Pulse)
+project (NSDI_Pulse
+VERSION 0.0
+LANGUAGES CXX)
 
-add_executable(NSDI Pulse NSDI Pulse.cpp)
+add_library(speGrid speGrid.cpp speGrid.h)
+add_library(fields fields.cpp fields.h)
+
+add_executable(NSDI_Pulse NSDI_Pulse.cpp)
+
+target_link_libraries(NSDI_Pulse speGrid fields)
