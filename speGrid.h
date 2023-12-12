@@ -15,7 +15,7 @@
 #include "fields.h"
 
 class spePoint {
-	vec6 p;
+	vec4 p;
 	dcmplx ti, tr, k;
 
 };

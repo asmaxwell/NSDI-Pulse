@@ -11,7 +11,7 @@
 #include <array>
 #include <complex>
 
-using vec6 = std::array<double,6>;
+using vec4 = std::array<double,4>;
 using dcmplx = std::complex<double>;
 
 class fields {
