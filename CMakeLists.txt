@@ -1,13 +1,18 @@
-cmake_minimum_required(VERSION 2.8...3.13)
+cmake_minimum_required( VERSION 3.10 )
 
 project (NSDI_Pulse
 VERSION 0.0
 LANGUAGES CXX)
 
+#For testing include catch2/3
+find_package(Catch2 3 REQUIRED)
+
 add_library(speGrid speGrid.cpp speGrid.h)
 add_library(speEqns speEqns.cpp speEqns.h)
 add_library(fields fields.cpp fields.h)
 
-add_executable(NSDI_Pulse NSDI_Pulse.cpp)
+#add_executable(speGrid speGrid.cpp)
+#target_link_libraries(speGrid PRIVATE fields Catch2::Catch2WithMain)
 
-target_link_libraries(NSDI_Pulse speGrid speEqns fields)
+add_executable(NSDI_Pulse NSDI_Pulse.cpp)
+target_link_libraries(NSDI_Pulse PRIVATE speGrid speEqns fields Catch2::Catch2)
