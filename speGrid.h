@@ -12,7 +12,7 @@
 
 #include <vector>
 
-#include "fields.h"
+#include "speEqns.h"
 
 struct spePoint {
 	/*
@@ -24,22 +24,36 @@ struct spePoint {
 	 */
 	spePoint(vec4 pf_);
 	vec4 pf;
-	dcmplx ti, tr, k;
+	std::vector<dcmplx> ti, tr, k;
+	bool pointSolvedQ = false;
 
 };
 
 struct speGridParameters{
 	int Nx1, Nz1, Nx2, Nz2;
 	std::array<double,2> pfStart, pfEnd;
+	double E01, E02; //Target parameters
 };
 
 class speGrid {
+	/*
+	 * class to solve saddle point equations over grid of 2x2D momentum
+	 */
 public:
-	speGrid(const speGridParameters& gridParam);
+	speGrid(const speGridParameters& gridParam, const laserField LF);
 	virtual ~speGrid();
 	void populateGrid();
 
+	void solvePointRandom(size_t ix1, size_t iz1, size_t ix2, size_t iz2);
+	void solvePointRandom(spePoint& point);
+	void solveAllRandom();
+	void solveWithAdjacent(spePoint& pointSolved, spePoint& pointToSolve);
+	void propagateSolutionOverGrid(size_t ix1, size_t iz1, size_t ix2, size_t iz2);
+
+
+	spePoint& at(size_t ix1, size_t iz1, size_t ix2, size_t iz2);
 	//get and set methods
+	const auto& getSaddlePointEquations() const;
 	const auto& getGrid() const;
 	const auto& getPfStart() const;
 	const auto& getPfEnd() const;
@@ -48,6 +62,7 @@ private:
 	size_t Nx1, Nz1, Nx2, Nz2;
 	std::array<double,2> pfStart, pfEnd;
 	double ddpx1, ddpz1, ddpx2, ddpz2;
+	speEqns saddlePointEquations;
 	std::vector<spePoint> grid;
 };
 

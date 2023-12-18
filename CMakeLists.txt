@@ -6,13 +6,12 @@ LANGUAGES CXX)
 
 #For testing include catch2/3
 find_package(Catch2 3 REQUIRED)
+find_package(GSL REQUIRED)
 
 add_library(speGrid speGrid.cpp speGrid.h)
 add_library(speEqns speEqns.cpp speEqns.h)
 add_library(fields fields.cpp fields.h)
-
-#add_executable(speGrid speGrid.cpp)
-#target_link_libraries(speGrid PRIVATE fields Catch2::Catch2WithMain)
+add_library(multiroot multiroot.cpp multiroot.h)
 
 add_executable(NSDI_Pulse NSDI_Pulse.cpp)
-target_link_libraries(NSDI_Pulse PRIVATE speGrid speEqns fields Catch2::Catch2)
+target_link_libraries(NSDI_Pulse PRIVATE speGrid speEqns fields multiroot Catch2::Catch2 GSL::gsl GSL::gslcblas)

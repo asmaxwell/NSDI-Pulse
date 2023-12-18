@@ -10,6 +10,7 @@
 
 #include <array>
 #include <complex>
+#include <memory>
 
 using vec4 = std::array<double,4>;
 using dcmplx = std::complex<double>;
@@ -85,5 +86,6 @@ namespace fields {
 
 	};
 };
+using laserField = std::shared_ptr<fields::laserField>;
 
 #endif /* FIELDS_H_ */

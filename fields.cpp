@@ -109,58 +109,60 @@ dcmplx fields::sin2::dF(dcmplx t) const{
 
 //imported from linear SFA Cython code
 double fields::sin2::AIfield( double t) const{
-        double factor, a1, a2, a3;//, AI0=0.;
-        //Integral of vector potential
-        double s1, s2, s3;
-		//Turn field off after end of pulse
-		if(t>2*NCycles*pi/omega+1e-15){return AIfield(2*NCycles*pi/omega);}
-        //Case if N==1 as general expression will diverge
-        if(NCycles==1){
-            //AI0 = (3*rtUp*std::sin(phi))/(4.*omega);
-            return -(rtUp*(2*t*omega*std::cos(phi) - 4*std::sin(t*omega + phi) + std::sin(2*t*omega + phi)))/(4.*std::sqrt(2)*omega);// - AI0;
-        }
-        else{
-            //AI0 = (rtUp*std::sin(phi))/(omega - NCycles*NCycles*omega); // AfI(0) to ensure limits are correct.
-            a1 = NCycles*NCycles - 1;
-            a2 = (NCycles + 1.)/NCycles;
-            a3 = (NCycles - 1.)/NCycles;
-            factor = rtUp/(2*omega*a1);
+	if(fieldType==fieldTypes::sin2 && NCycles==1){return 0.0;}
+	double factor, a1, a2, a3;//, AI0=0.;
+	//Integral of vector potential
+	double s1, s2, s3;
+	//Turn field off after end of pulse
+	if(t>2*NCycles*pi/omega+1e-15){return AIfield(2*NCycles*pi/omega);}
+	//Case if N==1 as general expression will diverge
+	if(NCycles==1){
+		//AI0 = (3*rtUp*std::sin(phi))/(4.*omega);
+		return -(rtUp*(2*t*omega*std::cos(phi) - 4*std::sin(t*omega + phi) + std::sin(2*t*omega + phi)))/(4.*std::sqrt(2)*omega);// - AI0;
+	}
+	else{
+		//AI0 = (rtUp*std::sin(phi))/(omega - NCycles*NCycles*omega); // AfI(0) to ensure limits are correct.
+		a1 = NCycles*NCycles - 1;
+		a2 = (NCycles + 1.)/NCycles;
+		a3 = (NCycles - 1.)/NCycles;
+		factor = rtUp/(2*omega*a1);
 
-            s1 = std::sin(omega*t + phi);
-            s2 = std::sin(phi + a2 *omega*t);
-            s3 = std::sin(phi + a3 *omega*t);
+		s1 = std::sin(omega*t + phi);
+		s2 = std::sin(phi + a2 *omega*t);
+		s3 = std::sin(phi + a3 *omega*t);
 
-            return factor * (2*a1*s1 - NCycles*NCycles *( a3*s2 + a2*s3) );// - AI0;
-        }
+		return factor * (2*a1*s1 - NCycles*NCycles *( a3*s2 + a2*s3) );// - AI0;
+	}
 }
 
 dcmplx fields::sin2::AIfield( dcmplx t) const{
-		//Integral of vector potential
-		double factor, a1, a2, a3, tr=t.real();
-		dcmplx s1, s2, s3;//, AI0;
-		//Turn field off after end of pulse
-		if(tr>2*NCycles*pi/omega+1e-15){
-			std::cerr<<"Error complex field should not be evaluated outside pulse\n";
-			return AIfield(2*NCycles*pi/omega);
-		}
-		//Case if N==1 as general expression will diverge
-		if(NCycles==1){
-			//AI0 = (3*rtUp*std::sin(phi))/(4.*omega);
-			return -(rtUp*(2.*t*omega*std::cos(phi) - 4.*std::sin(t*omega + phi) + std::sin(2.*t*omega + phi)))/(4.*std::sqrt(2.)*omega);// - AI0;
-		}
-		else{
-			//AI0 = (rtUp*std::sin(phi))/(omega - NCycles*NCycles*omega); // AfI(0) to ensure limits are correct.
-			a1 = NCycles*NCycles - 1;
-			a2 = (NCycles + 1.)/NCycles;
-			a3 = (NCycles - 1.)/NCycles;
-			factor = rtUp/(2*omega*a1);
+	if(fieldType==fieldTypes::sin2 && NCycles==1){return 0.0;}
+	//Integral of vector potential
+	double factor, a1, a2, a3, tr=t.real();
+	dcmplx s1, s2, s3;//, AI0;
+	//Turn field off after end of pulse
+	if(tr>2*NCycles*pi/omega+1e-15){
+//		std::cerr<<"Error complex field should not be evaluated outside pulse\n";
+		return AIfield(2*NCycles*pi/omega);
+	}
+	//Case if N==1 as general expression will diverge
+	if(NCycles==1){
+		//AI0 = (3*rtUp*std::sin(phi))/(4.*omega);
+		return -(rtUp*(2.*t*omega*std::cos(phi) - 4.*std::sin(t*omega + phi) + std::sin(2.*t*omega + phi)))/(4.*std::sqrt(2.)*omega);// - AI0;
+	}
+	else{
+		//AI0 = (rtUp*std::sin(phi))/(omega - NCycles*NCycles*omega); // AfI(0) to ensure limits are correct.
+		a1 = NCycles*NCycles - 1;
+		a2 = (NCycles + 1.)/NCycles;
+		a3 = (NCycles - 1.)/NCycles;
+		factor = rtUp/(2*omega*a1);
 
-			s1 = std::sin(omega*t + phi);
-			s2 = std::sin(phi + a2 *omega*t);
-			s3 = std::sin(phi + a3 *omega*t);
+		s1 = std::sin(omega*t + phi);
+		s2 = std::sin(phi + a2 *omega*t);
+		s3 = std::sin(phi + a3 *omega*t);
 
-			return factor * (2.*a1*s1 - static_cast<double>(NCycles*NCycles) *( a3*s2 + a2*s3) );// - AI0;
-		}
+		return factor * (2.*a1*s1 - static_cast<double>(NCycles*NCycles) *( a3*s2 + a2*s3) );// - AI0;
+	}
 }
 
 /// --- Testing Suite --- ///
