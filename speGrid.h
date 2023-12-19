@@ -50,6 +50,8 @@ public:
 	void solveWithAdjacent(spePoint& pointSolved, spePoint& pointToSolve);
 	void propagateSolutionOverGrid(size_t ix1, size_t iz1, size_t ix2, size_t iz2);
 
+	void printToFile(std::string outputFilename);
+
 
 	spePoint& at(size_t ix1, size_t iz1, size_t ix2, size_t iz2);
 	//get and set methods

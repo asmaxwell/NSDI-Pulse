@@ -165,7 +165,7 @@ std::vector<timePair> speEqns::RandSolve(const vec4& pf, size_t NumRandGuesses){
 
 	return timeListOut;
 }
-
+const auto & speEqns::getLaserField() const {return LF;}
 
 /// --- Testing Suite --- ///
 TEST_CASE( "Testing SPEEqns Methods" ,"[SPEEqns]") {
@@ -266,4 +266,6 @@ TEST_CASE( "Testing SPEEqns Methods" ,"[SPEEqns]") {
 		}
 
 	}
+
+
 }

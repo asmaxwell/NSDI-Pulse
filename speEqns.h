@@ -28,6 +28,8 @@ public:
 
 	int solveRoot(dcmplx& ti, dcmplx& tr, const vec4& pf);
 	std::vector<timePair> RandSolve(const vec4& pf, size_t NumRandGuesses);
+
+	const auto & getLaserField() const;
 private:
 	const double E01, E02;
 	const double rel_err = 1e-12;

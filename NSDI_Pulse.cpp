@@ -1,4 +1,7 @@
 #include <iostream>
+#include <sstream>
+#include <sys/stat.h>
+
 #include <catch2/catch_session.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include "speGrid.h"
@@ -9,8 +12,16 @@
  */
 
 int main(int argc, char **argv) {
+	const std::string PATH="Data/";
+	//ensure Data folder exists not will not overwrite existing one
+	struct stat st;
+	if(stat(PATH.c_str(),&st)==-1){
+		mkdir(PATH.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+	}
+
 	speGridParameters gridParam;
-	gridParam.Nx1 = gridParam.Nz1 = gridParam.Nx2 = gridParam.Nz2 = 10;
+	gridParam.Nz1 = gridParam.Nz2 = 201;
+	gridParam.Nx1 = gridParam.Nx2 = 3;
 	gridParam.pfStart={-3, -3};
 	gridParam.pfEnd={3, 3};
 	gridParam.E01 = 0.79;
@@ -23,10 +34,17 @@ int main(int argc, char **argv) {
 
 	laserField LF = std::make_shared<fields::monochromaticField>(omega, rtUp, phi, N, fieldType);
 	speGrid saddlePointGrid(gridParam, LF);
-//	saddlePointGrid.populateGrid();
-//	saddlePointGrid.solveAllRandom();
-	int result = Catch::Session().run( argc, argv );
-//	int result = 0;
+	saddlePointGrid.populateGrid();
+	size_t midPointx = gridParam.Nx1/2;
+	size_t midPointz = gridParam.Nz1/2;
+	saddlePointGrid.solvePointRandom(midPointx, midPointz, midPointx, midPointz);
+	saddlePointGrid.propagateSolutionOverGrid(midPointx, midPointz, midPointx, midPointz);
+	saddlePointGrid.printToFile(PATH+"SaddlePointSoluitons.dat");
+
+	int result = 0;
+	//uncomment below to run all unit tests
+//	result = Catch::Session().run( argc, argv );
+
 
 
 	return result;

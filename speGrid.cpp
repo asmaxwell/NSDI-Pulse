@@ -4,6 +4,8 @@
  *  Created on: 12 Dec 2023
  *      Author: andy
  */
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <ranges>
 #include <tuple>
@@ -122,7 +124,8 @@ void speGrid::propagateSolutionOverGrid(size_t ix1, size_t iz1, size_t ix2, size
 	auto& point = at(ix1, iz1, ix2, iz2);
 	if(point.pointSolvedQ==false){std::cerr<<"Error input point not solved\n"; return;}
 
-	//solve a row
+	//solve a z1 row
+	std::cout<<"solving row\n";
 	for(int i=iz1+1; i!=Nz1; ++i){
 //		std::cout<<"i = "<<i<<"\n";
 		auto &pointSolved = at(ix1, i-1, ix2, iz2), &pointToSolve = at(ix1, i, ix2, iz2);
@@ -134,7 +137,8 @@ void speGrid::propagateSolutionOverGrid(size_t ix1, size_t iz1, size_t ix2, size
 		solveWithAdjacent(pointSolved, pointToSolve);;
 	}
 
-	//solve z1xz2 grid
+	//solve 2d z1xz2 grid
+	std::cout<<"solving 2d grid\n";
 	for(int iiz2=iz2+1; iiz2!=Nz2; ++iiz2){
 		for(int iiz1=0; iiz1!=Nz1; ++iiz1){
 			auto &pointSolved = at(ix1, iiz1, ix2, iiz2-1), &pointToSolve = at(ix1, iiz1, ix2, iiz2);
@@ -148,20 +152,76 @@ void speGrid::propagateSolutionOverGrid(size_t ix1, size_t iz1, size_t ix2, size
 		}
 	}
 
-	//solve x1xz1xz2 grid
-	for(int iix1=ix1+1; iix1!=Nx1; ++iix1){
-		for(int iiz1=0; iiz1!=Nz1; ++iiz1){
+	//solve 3d x1xz1xz2 grid
+	size_t NThreads=8;
+	std::cout<<"solving 3d grid\n";
+	#pragma omp parallel num_threads(NThreads)
+	#pragma omp for ordered
+	for(int iiz1=0; iiz1!=Nz1; ++iiz1){
+		#pragma omp task firstprivate(iiz1)
+		for(int iix1=ix1+1; iix1!=Nx1; ++iix1){
 			for(int iiz2=0; iiz2!=Nz2; ++iiz2){
 				auto &pointSolved = at(iix1-1, iiz1, ix2, iiz2), &pointToSolve = at(iix1, iiz1, ix2, iiz2);
 				solveWithAdjacent(pointSolved, pointToSolve);
 			}
 		}
 	}
-	for(int iix1=ix1; iix1!=0; --iix1){
-		for(int iiz1=0; iiz1!=Nz1; ++iiz1){
+	#pragma omp parallel num_threads(NThreads)
+	#pragma omp for ordered
+	for(int iiz1=0; iiz1!=Nz1; ++iiz1){
+		#pragma omp task firstprivate(iiz1)
+		for(int iix1=ix1; iix1!=0; --iix1){
 			for(int iiz2=0; iiz2!=Nz2; ++iiz2){
 				auto &pointSolved = at(iix1, iiz1, ix2, iiz2), &pointToSolve = at(iix1-1, iiz1, ix2, iiz2);
 				solveWithAdjacent(pointSolved, pointToSolve);
+			}
+		}
+	}
+	//solve 4d x1xz1xx2xz2 grid
+	std::cout<<"solving 4d grid\n";
+	#pragma omp parallel num_threads(NThreads)
+	#pragma omp for ordered
+	for(int iiz1=0; iiz1!=Nz1; ++iiz1){
+		#pragma omp task firstprivate(iiz1)
+		for(int iix2=ix1+1; iix2!=Nx2; ++iix2){
+			for(int iiz2=0; iiz2!=Nz2; ++iiz2){
+				for(int iix1=0; iix1!=Nx1; ++iix1){
+					auto &pointSolved = at(iix1, iiz1, iix2-1, iiz2), &pointToSolve = at(iix1, iiz1, iix2, iiz2);
+					solveWithAdjacent(pointSolved, pointToSolve);
+				}
+			}
+		}
+	}
+	#pragma omp parallel num_threads(NThreads)
+	#pragma omp for ordered
+	for(int iiz1=0; iiz1!=Nz1; ++iiz1){
+	#pragma omp task firstprivate(iiz1)
+		for(int iix2=ix1; iix2!=0; --iix2){
+			for(int iiz2=0; iiz2!=Nz2; ++iiz2){
+				for(int iix1=0; iix1!=Nx1; ++iix1){
+					auto &pointSolved = at(iix1, iiz1, iix2, iiz2), &pointToSolve = at(iix1, iiz1, iix2-1, iiz2);
+					solveWithAdjacent(pointSolved, pointToSolve);
+				}
+			}
+		}
+	}
+	return;
+}
+
+void speGrid::printToFile(std::string outputFilename){
+	std::ofstream outputFile(outputFilename);
+	if(outputFile.fail()){
+		std::cerr<<"Output file not opened\n";
+	}
+	for(const auto& point : grid){
+		if(point.pointSolvedQ){
+			vec4 pf = point.pf;
+			std::vector<dcmplx> tiList = point.ti, trList = point.tr, kList = point.k;
+			for(int i=0; i!=tiList.size(); ++i){
+				outputFile//<<std::setprecision(std::numeric_limits<double>::digits10-2)
+						<<pf[0]<<" "<<pf[1]<<" "<<pf[2]<<" "<<pf[3]<<" "<<tiList[i].real()<<" "
+						<<tiList[i].imag()<<" "<<trList[i].real()<<" "<<trList[i].imag()<<" "
+						<<kList[i].real()<<" "<<kList[i].imag()<<"\n";
 			}
 		}
 	}
