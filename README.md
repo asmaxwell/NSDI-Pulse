@@ -1,7 +1,7 @@
 # NSDI Pulse
 ## Introduction
 This is an extension of a previous NSDI code using the strong-field approximation that was valid for monochromatic fields. This code is valid for a sin-squared laser pulse.
-## Prerequisite 
+## Prerequisites 
 In order to install this code you will need the following libraires installed:
 * CMake (to compile)
 * GSL (GNU Scientific Library)
@@ -12,3 +12,8 @@ In order to install this code you will need the following libraires installed:
 First download the code from Github however you perfer. Then compile using CMake. I fyou do  this over the command line go to the directory build/default/ and run the following:
 ```cmake --build . --target all```
 However, it may be easiet to import the project as a CMake project into eclispe, virtual studio, or another C++ friendly IDE.
+
+## Structure of code
+The main function is located in the file NSDI_Pulse.cpp, which is where the code begins it's execution, this file is what makes the final executable. Here, we have code that makes a Data/ folder for export and set some parameters. a parameter file could be used instead but due to the small size of this code I didn't implement that yet. One of the paraemters set is the field type and lasr field class, this can be swtich between monochromatic and sin2 (sin-squared).
+
+An important class is ```speGrid```, this defines a grid of saddle point solutions. Here ```saddlePointGrid``` is delared, this is where the saddle point equations are sovled. The saddle point equations are sovled over the entire grid by first picking a sinlge point in momentum, then solving this point randomly. What this means is many (currently 2000) random complex times are generated for the single point in momentum. These times are used as guesses for a rootfinding method to solve the saddle point equations. This will exahutively provide all solutions for a specific momentum. This is a slow way to find solutions but we only need to do it for a single point.
