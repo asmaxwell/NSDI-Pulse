@@ -55,8 +55,8 @@ public:
 
 	spePoint& at(size_t ix1, size_t iz1, size_t ix2, size_t iz2);
 	//get and set methods
-	const auto& getSaddlePointEquations() const;
-	const auto& getGrid() const;
+	const speEqns& getSaddlePointEquations() const;
+	const std::vector<spePoint>& getGrid() const;
 	const auto& getPfStart() const;
 	const auto& getPfEnd() const;
 	const auto getNx1() const, getNz1() const, getNx2() const, getNz2() const;

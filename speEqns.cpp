@@ -20,9 +20,7 @@ const double pi = 3.1415926535897932384626433832795028841971693993751;
 
 speEqns::speEqns(double E01_, double E02_, const laserField& LF_) : E01(E01_), E02(E02_), LF(LF_) {};
 
-speEqns::~speEqns() {
-	// TODO Auto-generated destructor stub
-}
+speEqns::~speEqns() {};
 
 dcmplx speEqns::k(dcmplx ti, dcmplx tr) const{
 	if(std::abs(tr-ti)<1e-16){return 0.0;}
@@ -165,7 +163,9 @@ std::vector<timePair> speEqns::RandSolve(const vec4& pf, size_t NumRandGuesses){
 
 	return timeListOut;
 }
-const auto & speEqns::getLaserField() const {return LF;}
+const laserField & speEqns::getLaserField() const {return LF;}
+const double speEqns::getE01() const {return E01;}
+const double speEqns::getE02() const {return E02;}
 
 /// --- Testing Suite --- ///
 TEST_CASE( "Testing SPEEqns Methods" ,"[SPEEqns]") {

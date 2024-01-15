@@ -38,8 +38,10 @@ namespace fields {
 		virtual dcmplx dtAfield(dcmplx t) const;
 		virtual double AIfield(double t) const=0;
 		virtual dcmplx AIfield(dcmplx t) const=0;
-		double AI2field(double t) const;
-		dcmplx AI2field(dcmplx t) const;
+		virtual double A2Ifield(double t) const=0;
+		virtual dcmplx A2Ifield(dcmplx t) const=0;
+		//double AI2field(double t) const;
+		//dcmplx AI2field(dcmplx t) const;
 
 		//get methods
 		const double getOmega() const;
@@ -52,7 +54,7 @@ namespace fields {
 		virtual dcmplx F(dcmplx t) const=0;
 		virtual double dF(double t) const=0;
 		virtual dcmplx dF(dcmplx t) const=0;
-		double omega, rtUp, phi;//ang. freq, square root of up and CEP
+		double omega, rtUp, phi, Up;//ang. freq, square root of up and CEP
 		int NCycles;// number of cycles
 		fieldTypes fieldType;
 
@@ -63,6 +65,8 @@ namespace fields {
 
 		double AIfield(double t) const;
 		dcmplx AIfield(dcmplx t) const;
+		double A2Ifield(double t) const;
+		dcmplx A2Ifield(dcmplx t) const;
 		//double A_end(double tf) const; // not necessary for monochromatic fields if an appropiate final time chosen
 	private:
 		double F(double t) const {return 2*rtUp;}
@@ -77,6 +81,8 @@ namespace fields {
 
 		double AIfield(double t) const;
 		dcmplx AIfield(dcmplx t) const;
+		double A2Ifield(double t) const;
+		dcmplx A2Ifield(dcmplx t) const;
 
 		double F(double t) const;
 	private:

@@ -4,6 +4,8 @@
 
 #include <catch2/catch_session.hpp>
 #include <catch2/catch_test_macros.hpp>
+
+#include "actionData.h"
 #include "speGrid.h"
 /*
  * Created by Andrew S Maxwell 12/12/2023
@@ -40,6 +42,11 @@ int main(int argc, char **argv) {
 	saddlePointGrid.solvePointRandom(midPointx, midPointz, midPointx, midPointz);
 	saddlePointGrid.propagateSolutionOverGrid(midPointx, midPointz, midPointx, midPointz);
 	saddlePointGrid.printToFile(PATH+"SaddlePointSoluitons.dat");
+
+	//compute action
+	actionData actionGrid(saddlePointGrid);
+	actionGrid.calculateAllAction();
+	actionGrid.printToFile(PATH+"ActionData.dat");
 
 	int result = 0;
 	//uncomment below to run all unit tests

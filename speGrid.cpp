@@ -35,9 +35,7 @@ speGrid::speGrid(const speGridParameters& gridParam, const laserField LF) : Nx1(
 	ddpz2 = (pfEnd[1] - pfStart[1])/(Nz2-1);
 }
 
-speGrid::~speGrid() {
-	// TODO Auto-generated destructor stub
-}
+speGrid::~speGrid() {};
 
 void speGrid::populateGrid(){
 	/*
@@ -233,8 +231,8 @@ spePoint& speGrid::at(size_t ix1, size_t iz1, size_t ix2, size_t iz2){
 }
 
 //get and set
-const auto& speGrid::getSaddlePointEquations() const { return saddlePointEquations;}
-const auto& speGrid::getGrid() const { return grid;}
+const speEqns& speGrid::getSaddlePointEquations() const { return saddlePointEquations;}
+const std::vector<spePoint>& speGrid::getGrid() const { return grid;}
 const auto& speGrid::getPfStart() const { return pfStart;}
 const auto& speGrid::getPfEnd() const { return pfEnd;}
 const auto speGrid::getNx1() const { return Nx1;}
