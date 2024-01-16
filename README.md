@@ -12,9 +12,11 @@ In order to install this code you will need the following libraires installed:
 First download the code from Github however you perfer. Then compile using CMake. If you do  this over the command line go to the root directory and run the following:
 
 ```cmake -S . -B build```
+
 This will make a build directory and configure the CMake file. Then to compile and gerneate an executable run:
 
 ```cmake --build build```
+
 However, it may be easiet to import the project as a CMake project into eclispe, virtual studio, or another C++ friendly IDE.
 
 ## Structure of code
