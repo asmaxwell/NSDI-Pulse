@@ -9,8 +9,10 @@ In order to install this code you will need the following libraires installed:
 * Catch2 (if you want to use the test features---if not you can simply comment out all Catch2 references from the code)
 
 ## Install and compile
-First download the code from Github however you perfer. Then compile using CMake. I fyou do  this over the command line go to the directory build/default/ and run the following:
-```cmake --build . --target all```
+First download the code from Github however you perfer. Then compile using CMake. If you do  this over the command line go to the root directory and run the following:
+```cmake -S . -B build```
+This will make a build directory and configure the CMake file. Then to compile and gerneate an executable run:
+```cmake --build build```
 However, it may be easiet to import the project as a CMake project into eclispe, virtual studio, or another C++ friendly IDE.
 
 ## Structure of code
