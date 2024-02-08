@@ -20,4 +20,4 @@ list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
 include(Catch)
 catch_discover_tests(test_NSDI_Pulse)
 enable_testing()
-add_test(NAME test_NSDI_Pulse COMMAND Test) # Command can be a target
+add_test(NAME test_NSDI_Pulse COMMAND test_NSDI_Pulse) # Command can be a target
