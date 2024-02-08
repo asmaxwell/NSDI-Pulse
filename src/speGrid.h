@@ -57,8 +57,8 @@ public:
 	//get and set methods
 	const speEqns& getSaddlePointEquations() const;
 	const std::vector<spePoint>& getGrid() const;
-	const auto& getPfStart() const;
-	const auto& getPfEnd() const;
+	const std::array<double,2>& getPfStart() const;
+	const std::array<double,2>& getPfEnd() const;
 	const size_t getNx1() const, getNz1() const, getNx2() const, getNz2() const;
 private:
 	size_t Nx1, Nz1, Nx2, Nz2;

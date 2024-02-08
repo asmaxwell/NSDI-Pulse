@@ -15,12 +15,6 @@
 
 int main(int argc, char **argv) {
 
-	// --- Testing suite --- //
-	int result = 0;
-	//uncomment below to run all unit tests
-	result = Catch::Session().run( argc, argv );
-	// --- Testing End --- //
-
 	const std::string PATH="Data/";
 	//ensure Data folder exists not will not overwrite existing one
 	struct stat st;
@@ -57,8 +51,6 @@ int main(int argc, char **argv) {
 
 
 
-	return result;
+	return 0;
 }
 
-TEST_CASE( "1: All test cases reside in other .cpp files (empty)", "[multi-file:1]" ) {
-}

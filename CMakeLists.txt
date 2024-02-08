@@ -1,25 +1,29 @@
-cmake_minimum_required( VERSION 3.10 )
+cmake_minimum_required( VERSION 3.14 )
 
 project (NSDI_Pulse
 VERSION 0.0
 LANGUAGES CXX)
 
+#set c++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+#support for folders in IDEs
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 #For testing include catch2/3
 find_package(Catch2 3 REQUIRED)
 find_package(GSL REQUIRED)
 find_package(OpenMP REQUIRED)
 
-add_library(actionData actionData.cpp actionData.h)
-add_library(fields fields.cpp fields.h)
-add_library(multiroot multiroot.cpp multiroot.h)
-add_library(speGrid speGrid.cpp speGrid.h)
-add_library(speEqns speEqns.cpp speEqns.h)
+# The compiled library code is here
+add_subdirectory(src)
 
-add_executable(NSDI_Pulse NSDI_Pulse.cpp)
 
-target_link_libraries(NSDI_Pulse PRIVATE actionData speGrid speEqns fields multiroot
-						 Catch2::Catch2 GSL::gsl GSL::gslcblas OpenMP::OpenMP_CXX)
+
+
+# Add Testing
+#include(CTest)
+add_subdirectory(test)
+
