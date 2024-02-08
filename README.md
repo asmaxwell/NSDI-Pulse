@@ -6,18 +6,26 @@ To install this code you will need the following libraries installed:
 * CMake (to compile)
 * GSL (GNU Scientific Library)
 * OpenMP (parallelization library)
-* Catch2 (if you want to use the test features---if not you can simply not build the text executable)
+* ~~Catch2 (if you want to use the test features---if not you can simply not build the text executable)~~ Now CMake will find and install Catch2 for you but only if you decide to build the tests.
 
 ## Install and compile
-First download the code from GitHub however you prefer. Then compile using CMake. If you do  this over the command line go to the root directory and run the following:
+First download the code from GitHub however you prefer. Then compile using CMake. If you do this over the command line go to the root directory and run the following:
 
 ```cmake -S . -B build```
 
-This will make a build directory and configure the CMake file. Then to compile and generate an executable run:
+This will make a build directory and configure the CMake file. If you get errors hee it is likely you need to install dependencies or set up CMake properly. Then, to compile and generate an executable run:
 
 ```cmake --build build```
 
-However, it may be easiest to import the project as a CMake project into Eclipse, Visual Studio Code, or another C++-friendly IDE.
+Note this builds both the main project ```NSDI_Pulse``` and the tests ```test_NSDI_Pulse```. If you only want to build the main project for now instead run:
+
+```cmake --build build --target NSDI_Pulse```
+
+This will only build ```NSDI_Pulse```, the executable can then be found in ```build/src/NSDI_Pulse```. 
+It may be easiest to import the project as a CMake project into Eclipse, Visual Studio Code, or another C++-friendly IDE.
+
+## Running Tests and Test through GitHub actions
+There are a number of unit test for functions and class methods. These are run using the testing library Catch2, which CMake can get for you if you compile the tests, which are in the folder test/. To run the tests, from the build/ directory run the command ```ctest --build-config Release```. Alternatively, this project has continuous integration build and test setup on GitHub Actions, so every time a change is commited to the main branch the code will be compiled and tests will be ran on GitHub servers.
 
 ## Structure of code
 The ```main``` function is located in the file ```src/NSDI_Pulse.cpp```, which is where the code begins its execution, this file is what makes the final executable. Here, we have code that makes a Data/ folder for export and sets some parameters. a parameter file could be used instead but due to the small size of this code, I didn't implement that yet. One of the parameters set is the field type and laser field class, this can be switched between monochromatic and sin2 (sin-squared).
