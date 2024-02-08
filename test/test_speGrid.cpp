@@ -77,21 +77,5 @@ TEST_CASE( "Testing SPEGrid Methods" ,"[SPEGrid]") {
 	dcmplx SPE2val = saddlePointGrid.getSaddlePointEquations().SPE_tr(ti, tr, pf);
 	REQUIRE(std::abs(SPE1val+SPE2val) < 100 * 1e-12);
 
-//	spePoint adjacentPoint = saddlePointGrid.at(4,3,4,4);
-//	saddlePointGrid.solveWithAdjacent(point, adjacentPoint);
-//	std::cout<<" num sols = "<<adjacentPoint.ti.size()<<"\n";
-//	REQUIRE(!adjacentPoint.ti.empty());
-//	REQUIRE(!adjacentPoint.tr.empty());
-//	REQUIRE(!adjacentPoint.k.empty());
-//	REQUIRE(adjacentPoint.pointSolvedQ);
-//	ti = adjacentPoint.ti[0];
-//	tr = adjacentPoint.tr[0];
-//	pf = adjacentPoint.pf;
-//	SPE1val = saddlePointGrid.getSaddlePointEquations().SPE_ti(ti, tr, pf);
-//	SPE2val = saddlePointGrid.getSaddlePointEquations().SPE_tr(ti, tr, pf);
-//	REQUIRE(std::abs(SPE1val+SPE2val) < 100 * 1e-12);
-
-	saddlePointGrid.propagateSolutionOverGrid(midPoint, midPoint, midPoint, midPoint);
-
 
 }

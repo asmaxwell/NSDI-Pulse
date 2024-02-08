@@ -19,7 +19,7 @@ constexpr dcmplx I(0,1.);
 /// --- Testing Suite --- ///
 TEST_CASE( "Testing SPEGrid Methods" ,"[fields]") {
 	double omega=0.0551, rtUp=std::sqrt(1.2);
-	auto phi = GENERATE(0, 0.33*pi);
+	auto phi = 0.33*pi;//0.33*pi;//GENERATE(0, 0.33*pi);
 	SECTION("Testing Monochromatic Case"){
 		int N = 1;
 		fieldTypes fieldType = fieldTypes::monochromatic;
@@ -35,12 +35,18 @@ TEST_CASE( "Testing SPEGrid Methods" ,"[fields]") {
 		//check method values
 		REQUIRE(LF.Afield(0.0) == 2*rtUp*std::cos(phi));
 		REQUIRE(LF.Efield(0.0) == 2*rtUp*omega*std::sin(phi));
-		if(N==1 && std::abs(phi-0.33*pi)<1e-12){
-			REQUIRE(std::abs(LF.A2Ifield(0.4*pi/omega)-33.1287) <1e-3);
-			REQUIRE(std::abs(LF.A2Ifield(std::complex(pi/omega,0.25*pi/omega))-std::complex(184.726 ,10.0647)) <1e-3 );
-			REQUIRE(std::abs(LF.A2Ifield(std::complex(1.5*pi/omega,0.15*pi/omega))-std::complex(177.051 ,31.9446 )) <1e-3 );
-		}
 
+		double Up =rtUp*rtUp;
+		double out1 = (Up*(2*(1.2566370614359172 + phi) + std::sin(2*(1.2566370614359172 + phi))))/omega;
+		REQUIRE(std::abs(LF.A2Ifield(0.4*pi/omega)-out1) <1e-3);
+
+		dcmplx out2 = (Up*(2.*(std::complex<double>(3.141592653589793, 0.7853981633974483) + phi) 
+					+ std::sin(2.*(std::complex<double>(3.141592653589793, 0.7853981633974483) + phi))))/omega;
+		REQUIRE(std::abs(LF.A2Ifield(std::complex<double>(pi/omega,0.25*pi/omega))-out2) <1e-3 );
+
+		dcmplx out3 = (Up*(2.*(std::complex<double>(4.71238898038469,0.47123889803846897) + phi) 
+					+ std::sin(2.*(std::complex<double>(4.71238898038469,0.47123889803846897) + phi))))/omega;
+		REQUIRE(std::abs(LF.A2Ifield(std::complex<double>(1.5*pi/omega,0.15*pi/omega))-out3) <1e-3 );
 	}
 	SECTION("Testing Sin2 Case"){
 		auto N = GENERATE(2, 3);

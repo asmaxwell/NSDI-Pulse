@@ -73,10 +73,10 @@ dcmplx fields::monochromaticField::AIfield(dcmplx t) const{
 }
 
 double fields::monochromaticField::A2Ifield(double t) const{
-	return (Up/omega)*( 2*(phi+omega*t)+std::sin(2*(omega*t+phi)) );
+	return (Up/omega)*( 2.*(phi+omega*t) + std::sin( 2*(omega*t+phi) ) );
 }
 dcmplx fields::monochromaticField::A2Ifield(dcmplx t) const{
-	return (Up/omega)*( 2.*(phi+omega*t)+std::sin(2.*(omega*t+phi)) );
+	return (Up/omega)*( 2.*(phi+omega*t) + std::sin( 2.*(omega*t+phi) ) );
 }
 
 
