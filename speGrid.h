@@ -59,7 +59,7 @@ public:
 	const std::vector<spePoint>& getGrid() const;
 	const auto& getPfStart() const;
 	const auto& getPfEnd() const;
-	const auto getNx1() const, getNz1() const, getNx2() const, getNz2() const;
+	const size_t getNx1() const, getNz1() const, getNx2() const, getNz2() const;
 private:
 	size_t Nx1, Nz1, Nx2, Nz2;
 	std::array<double,2> pfStart, pfEnd;

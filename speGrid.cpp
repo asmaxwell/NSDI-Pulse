@@ -235,10 +235,10 @@ const speEqns& speGrid::getSaddlePointEquations() const { return saddlePointEqua
 const std::vector<spePoint>& speGrid::getGrid() const { return grid;}
 const auto& speGrid::getPfStart() const { return pfStart;}
 const auto& speGrid::getPfEnd() const { return pfEnd;}
-const auto speGrid::getNx1() const { return Nx1;}
-const auto speGrid::getNz1() const { return Nz1;}
-const auto speGrid::getNx2() const { return Nx2;}
-const auto speGrid::getNz2() const { return Nz2;}
+const size_t speGrid::getNx1() const { return Nx1;}
+const size_t speGrid::getNz1() const { return Nz1;}
+const size_t speGrid::getNx2() const { return Nx2;}
+const size_t speGrid::getNz2() const { return Nz2;}
 
 /// --- Testing Suite --- ///
 TEST_CASE( "Testing SPEGrid Methods" ,"[SPEGrid]") {

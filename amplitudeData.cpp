@@ -14,10 +14,30 @@ amplitudeData::amplitudeData(const actionData& actData_) actData(actData_) {
 amplitudeData::~amplitudeData() {};
 
 std::vector<dcmplx> amplitudeData::computeSPAAmplitudes(const actionDataPoint &actPoint){
+	/*
+	 * Method to compute the amplitude exp(i S) and determinant
+	 */
+	std::vector<dcmplx> AmpOut;
 	for(auto S : actPoint.SList){
 		dcmplx expS = std::exp(std::complex(0,S));
-		dcmplx detS = ()
+		AmpOut.push_back(expS);
 	}
+
+	return AmpOut;
+
+}
+
+std::vector<dcmplx> amplitudeData::computeSPADet(const actionDataPoint &actPoint){
+	/*
+	 * Method to compute the amplitude exp(i S) and determinant
+	 */
+	std::vector<dcmplx> AmpOut;
+	for(auto S : actPoint.SList){
+		dcmplx expS = std::exp(std::complex(0,S));
+		AmpOut.push_back(expS);
+	}
+
+	return AmpOut;
 
 }
 

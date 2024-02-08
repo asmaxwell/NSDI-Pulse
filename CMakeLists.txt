@@ -4,6 +4,10 @@ project (NSDI_Pulse
 VERSION 0.0
 LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 #For testing include catch2/3
 find_package(Catch2 3 REQUIRED)
 find_package(GSL REQUIRED)
@@ -15,7 +19,7 @@ add_library(multiroot multiroot.cpp multiroot.h)
 add_library(speGrid speGrid.cpp speGrid.h)
 add_library(speEqns speEqns.cpp speEqns.h)
 
-
 add_executable(NSDI_Pulse NSDI_Pulse.cpp)
+
 target_link_libraries(NSDI_Pulse PRIVATE actionData speGrid speEqns fields multiroot
 						 Catch2::Catch2 GSL::gsl GSL::gslcblas OpenMP::OpenMP_CXX)

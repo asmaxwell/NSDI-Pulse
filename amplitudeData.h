@@ -16,6 +16,7 @@ public:
 	virtual ~amplitudeData();
 
 	std::vector<dcmplx> computeSPAAmplitudes(const actionDataPoint &actPoint);
+	std::vector<dcmplx> computeSPADet(const actionDataPoint &actPoint);
 private:
 	const actionData& actData;
 };
