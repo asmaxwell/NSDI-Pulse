@@ -13,7 +13,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 #For testing include catch2/3
-find_package(Catch2 3 REQUIRED)
+Include(FetchContent)
+
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG        v2.13.9 # or a later release
+)
+
+FetchContent_MakeAvailable(Catch2)
+#find_package(Catch2 3 REQUIRED)
 find_package(GSL REQUIRED)
 find_package(OpenMP REQUIRED)
 
