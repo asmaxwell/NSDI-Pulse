@@ -7,6 +7,7 @@ To install this code you will need the following libraries installed:
 * GSL (GNU Scientific Library)
 * OpenMP (parallelization library)
 * ~~Catch2 (if you want to use the test features---if not you can simply not build the text executable)~~ Now CMake will find and install Catch2 for you but only if you decide to build the tests.
+* 
 
 ## Install and compile
 First download the code from GitHub however you prefer. Then compile using CMake. If you do this over the command line go to the root directory and run the following:
